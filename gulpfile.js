@@ -36,7 +36,7 @@ gulp.task('sass', function() {
 
 // Pug Tasks
 gulp.task('pug', function() {
-  return gulp.src('site/jade/**/*.jade')
+  return gulp.src('site/pug/**/*.pug')
   .pipe(pug())
   .pipe(gulp.dest('site'))
 });
@@ -44,7 +44,7 @@ gulp.task('pug', function() {
 // Watchers
 gulp.task('watch', function() {
   gulp.watch('site/sass/**/*.sass', ['sass']);
-  gulp.watch('site/jade/**/*.jade', ['pug']);
+  gulp.watch('site/pug/**/*.pug', ['pug']);
   gulp.watch('site/*.html', browserSync.reload);
   gulp.watch('site/js/**/*.js', browserSync.reload);
 })
