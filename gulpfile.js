@@ -12,6 +12,8 @@ var cache = require('gulp-cache');
 var del = require('del');
 var runSequence = require('run-sequence');
 var pug = require('gulp-pug');
+var plumber = require('gulp-plumber');
+var gutil = require('gulp-util');
 
 // Development Tasks
 // -----------------
@@ -88,6 +90,19 @@ gulp.task('clean', function() {
 gulp.task('clean:dist', function() {
   return del.sync(['dist/**/*', '!dist/images', '!dist/images/**/*']);
 });
+
+//Proper Error Handling
+var gulp_src = gulp.src;
+gulp.src = function() {
+  return gulp_src.apply(gulp, arguments)
+    .pipe(plumber(function(error) {
+      // Output an error message
+      gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
+      // emit the end event, to properly end the task
+      this.emit('end');
+    })
+  );
+};
 
 // Build Sequences
 // ---------------
