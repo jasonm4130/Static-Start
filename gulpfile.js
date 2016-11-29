@@ -22,15 +22,15 @@ var gutil = require('gulp-util');
 gulp.task('browserSync', function() {
   browserSync({
     server: {
-      baseDir: 'site'
+      baseDir: '_site'
     }
   })
 })
 
 gulp.task('sass', function() {
-  return gulp.src('site/sass/**/*.sass') // Gets all files ending with .scss in app/scss and children dirs
+  return gulp.src('_site/sass/**/*.sass') // Gets all files ending with .scss in app/scss and children dirs
     .pipe(sass()) // Passes it through a gulp-sass
-    .pipe(gulp.dest('site/css')) // Outputs it in the css folder
+    .pipe(gulp.dest('_site/css')) // Outputs it in the css folder
     .pipe(browserSync.reload({ // Reloading with Browser Sync
       stream: true
     }));
@@ -38,17 +38,17 @@ gulp.task('sass', function() {
 
 // Pug Tasks
 gulp.task('pug', function() {
-  return gulp.src('site/pug/**/*.pug')
+  return gulp.src('_site/pug/**/*.pug')
   .pipe(pug())
-  .pipe(gulp.dest('site'))
+  .pipe(gulp.dest('_site'))
 });
 
 // Watchers
 gulp.task('watch', function() {
-  gulp.watch('site/sass/**/*.sass', ['sass']);
-  gulp.watch('site/pug/**/*.pug', ['pug']);
-  gulp.watch('site/*.html', browserSync.reload);
-  gulp.watch('site/js/**/*.js', browserSync.reload);
+  gulp.watch('_site/sass/**/*.sass', ['sass']);
+  gulp.watch('_site/pug/**/*.pug', ['pug']);
+  gulp.watch('_site/*.html', browserSync.reload);
+  gulp.watch('_site/js/**/*.js', browserSync.reload);
 })
 
 // Optimization Tasks
@@ -57,7 +57,7 @@ gulp.task('watch', function() {
 // Optimizing CSS and JavaScript
 gulp.task('useref', function() {
 
-  return gulp.src('site/*.html')
+  return gulp.src('_site/*.html')
     .pipe(useref())
     .pipe(gulpIf('*.js', uglify()))
     .pipe(gulpIf('*.css', cssnano()))
@@ -66,7 +66,7 @@ gulp.task('useref', function() {
 
 // Optimizing Images
 gulp.task('images', function() {
-  return gulp.src('site/images/**/*.+(png|jpg|jpeg|gif|svg)')
+  return gulp.src('_site/images/**/*.+(png|jpg|jpeg|gif|svg)')
     // Caching images that ran through imagemin
     .pipe(cache(imagemin({
       interlaced: true,
@@ -76,7 +76,7 @@ gulp.task('images', function() {
 
 // Copying fonts
 gulp.task('fonts', function() {
-  return gulp.src('site/fonts/**/*')
+  return gulp.src('_site/fonts/**/*')
     .pipe(gulp.dest('dist/fonts'))
 })
 
